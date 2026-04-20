@@ -16,11 +16,56 @@ const handleRegister = async () => {
 }
 </script>
 <template>
-  <div>
-    <h2>Inscription</h2>
-    <input v-model="name" placeholder="Nom">
-    <input v-model="email" placeholder="Email">
-    <input v-model="password" type="password">
-    <button @click="handleRegister">S'inscrire</button>
+
+  <div class="flex justify-center items-center min-h-screen bg-white">
+    <div class="w-full flex items-center justify-center">
+      <div class="w-3/4 max-w-md p-8 bg-white shadow-lg rounded-lg">
+        <h2 class="text-2xl font-bold text-blue-600 mb-6">Sign up</h2>
+        <form>
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm mb-2">
+              Username
+            </label>
+            <input v-model="name" type="text" name="username" placeholder="Enter your username"
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm mb-2">Email</label>
+            <input v-model="email" type="email" name="email" placeholder="Enter your email"
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm mb-2">
+              Password
+            </label>
+            <input v-model="password" type="password" name="password" placeholder="Enter your password"
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+
+          <div class="mb-6">
+            <label class="block text-gray-700 text-sm mb-2">
+              Confirm Password
+            </label>
+            <input v-model="confirmPassword" type="password" name="confirmPassword" placeholder="Confirm your password"
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+
+          <button @click="handleRegister()"
+            class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+            Sign up
+          </button>
+        </form>
+
+
+        <p class="mt-6 text-sm text-center text-gray-600">
+          Already have an account?
+          <a href="/login" class="text-blue-600 hover:underline">
+            Sign in
+          </a>
+        </p>
+      </div>
+    </div>
   </div>
 </template>

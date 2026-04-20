@@ -15,6 +15,11 @@ const router = createRouter({
       component: () => import('../components/Inscription.vue'),
     },
     {
+      path: '/login',
+      name: 'LOGIN',
+      component: () => import('../components/Login.vue'),
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting
