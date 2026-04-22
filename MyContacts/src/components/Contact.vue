@@ -1,49 +1,56 @@
+<script setup>
+
+const logout = () => {
+  localStorage.removeItem('token')
+  user.value = null
+  router.push('/')
+}
+</script>
+
 <template>
-  <div class="min-h-screen bg-gray-100">
-
-    <header class="bg-white shadow">
-      <nav class="max-w-5xl mx-auto flex justify-between items-center p-4">
-        <h1 class="text-xl font-bold text-gray-800">Contact</h1>
-
-
-<div class="relative w-full max-w-xl mx-auto bg-white rounded-full">
-  <input
-    placeholder="e.g. Blog"
-    class="rounded-full w-full h-16 bg-transparent py-2 pl-8 pr-32 outline-none border-2 border-gray-100 shadow-md hover:outline-none focus:ring-blue-500 focus:border-blue-500" type="text" name="query" id="query">
-
-  <button
-    type="submit"
-    class="absolute inline-flex items-center h-10 px-4 py-2 text-sm text-white transition duration-150 ease-in-out rounded-full outline-none right-3 top-3 bg-blue-600 sm:px-6 sm:text-base sm:font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-    <svg class="-ml-0.5 sm:-ml-1 mr-2 w-4 h-4 sm:h-5 sm:w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-    </svg>
-    Search
-  </button>
-</div>
-        <div class="flex gap-4">
-          <a href="/login" class="text-blue-600 hover:underline font-medium">
-            Connectez-vous
-          </a>
-          <a href="/inscription" class="text-blue-600 hover:underline font-medium">
-            Inscrivez-vous
-          </a>
-        </div>
-      </nav>
-    </header>
-    <main class="flex items-center justify-center mt-16 px-4">
-      <div class="bg-white shadow-lg rounded-2xl p-6 w-full max-w-md text-center">
-        <h3 class="text-2xl font-semibold text-gray-800 mb-4">
-          Nom du Contact
-        </h3>
-        <p class="text-gray-500 mb-6">
-          CHRIST : +225 01 50 50 58 60
-        </p>
-        <a
-          href="tel:+0150505860"
-          class="inline-block bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition">
-          Appeler
-        </a>
+  <div class="min-h-screen bg-gray-100 font-sans text-gray-800">
+    <header class="bg-white p-4 shadow flex justify-between items-center">
+      <h1 class="text-xl font-bold">Contact</h1>
+      <div class="flex gap-4 items-center">
+        <span v-if="user" class="hidden sm:inline">Bonjour {{ user.name }}</span>
+        <button v-if="user" @click="logout" class="text-red-500 text-sm font-bold">Déconnexion</button>
+        <router-link v-else to="/login" class="text-blue-600 font-bold">Connexion</router-link>
       </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto p-6">
+      <div v-if="loading" class="text-center mt-10">Chargement...</div>
+
+      <template v-else>
+        <div v-if="user">
+          <div class="flex justify-between mb-4">
+          <h2>Mes Contacts ({{ contacts.length }})</h2>
+          <router-link to="/create" class="mt-4 block bg-blue-600 text-white py-2 rounded-xl font-bold">+ Ajouter</router-link>
+        </div>
+          <div v-if="contacts.length" class="grid gap-4 sm:grid-cols-2">
+            <div v-for="c in contacts" :key="c.id" class="bg-white p-5 rounded-2xl shadow-sm border text-center">
+              <h3 class="font-bold text-lg">{{ c.firstname }} {{ c.lastname }}</h3>
+              <p class="text-blue-500 text-sm">{{ c.position }} @ {{ c.company }}</p>
+              <div class="mt-3 text-sm text-gray-500">
+                <p>{{ c.phone }}</p>
+                <p>{{ c.email }}</p>
+              </div>
+              <a :href="'tel:'+c.phone" class="mt-4 block bg-blue-600 text-white py-2 rounded-xl font-bold">Appeler</a>
+            </div>
+          </div>
+
+          <div v-else class="text-center mt-10">
+            <p class="mb-4">Aucun contact trouvé.</p>
+            <router-link to="/add-contact" class="bg-green-600 text-white px-6 py-2 rounded-lg">+ Ajouter</router-link>
+          </div>
+        </div>
+
+        <div v-else class="bg-white p-10 rounded-3xl shadow-sm text-center border-2 border-dashed">
+          <h2 class="text-xl font-bold mb-2">Accès restreint</h2>
+          <p class="mb-6 text-gray-500">Connectez-vous pour gérer vos contacts.</p>
+          <router-link to="/login" class="bg-blue-600 text-white px-10 py-3 rounded-xl font-bold">Se connecter</router-link>
+        </div>
+      </template>
     </main>
   </div>
 </template>
